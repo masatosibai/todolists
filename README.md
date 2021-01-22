@@ -1,24 +1,9 @@
-# todolists
+### 要件
 
-## Project setup
-```
-yarn install
-```
+todolist を作成する
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+### 機能一覧
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- todolist を登録する
+- todolist を更新する
+- todolist を削除する
