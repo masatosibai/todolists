@@ -7,11 +7,25 @@
           <input type="text" class="inputtext" v-model="inputText" />
           <button class="add" @click="addList(inputText)">追加</button>
         </div>
-        <div class="flex" v-for="(data, index) in list" :key="index">
+        <div
+          class="flex"
+          v-for="(data, index) in $store.state.todolistName"
+          :key="index"
+        >
           <input type="text" class="inpuupdate" v-model="data.name" />
           <div class="buttons ">
-            <button class="update" @click="updateList(data.name)">更新</button>
-            <button class="delete" @click="deleteList(data.name)">削除</button>
+            <button
+              class="update"
+              @click="updateList(data.name, data.id, index)"
+            >
+              更新
+            </button>
+            <button
+              class="delete"
+              @click="deleteList(data.name, data.id, index)"
+            >
+              削除
+            </button>
           </div>
         </div>
       </div>
@@ -23,9 +37,13 @@
 export default {
   data: () => ({
     list: [{ name: "開発" }, { name: "仕事" }, { name: "子育て" }],
+    url: "https://radiant-reaches-47731.herokuapp.com/api/todolists",
     inputText: null,
     is_validation: false,
   }),
+  async created() {
+    this.$store.dispatch("Init", { url: this.url });
+  },
   methods: {
     checkValidation(targetText) {
       if (!targetText) {
@@ -38,17 +56,27 @@ export default {
     },
     addList(inputText) {
       if (this.checkValidation(inputText)) {
-        alert(inputText);
+        this.$store.dispatch("AddTodoName", { url: this.url, name: inputText });
+        this.inputText = "";
       }
     },
-    updateList(updateList) {
+    updateList(updateList, Id, Index) {
       if (this.checkValidation(updateList)) {
-        alert(updateList);
+        this.$store.dispatch("updateTodoName", {
+          url: this.url,
+          name: updateList,
+          ID: Id,
+          Index: Index,
+        });
       }
     },
-    deleteList(deleteList) {
+    deleteList(deleteList, Id, Index) {
       if (this.checkValidation(deleteList)) {
-        alert(deleteList);
+        this.$store.dispatch("deleteTodoName", {
+          url: this.url,
+          ID: Id,
+          Index: Index,
+        });
       }
     },
   },
