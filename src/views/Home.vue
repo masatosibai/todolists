@@ -1,49 +1,74 @@
 <template>
   <div class="container">
     <div class="main">
-      <p class="title">ToDOList</p>
+      <p class="title">やることリスト</p>
       <div class="todolist">
         <div class="flex">
-          <input type="text" class="inputtext" v-model="inputText" />
-          <button class="add" @click="addList(inputText)">追加</button>
+          <v-text-field
+            class="inputtext"
+            label="やることを記入"
+            counter="200"
+            v-model="inputText"
+          />
+          <v-btn
+            text
+            x-large
+            v-if="this.inputText != ''"
+            @click="addList(inputText)"
+          >
+            <span id="texts">を追加する</span>
+          </v-btn>
         </div>
         <div
           class="flex"
           v-for="(data, index) in $store.state.todolistName"
           :key="index"
         >
-          <input type="text" class="inpuupdate" v-model="data.name" />
+          <v-text-field
+            type="text"
+            class="inputupdate"
+            v-model="data.name"
+            @change="input(index)"
+          />
           <div class="buttons ">
-            <button
-              class="update"
+            <v-btn
+              text
+              v-if="nowName == index"
               @click="updateList(data.name, data.id, index)"
             >
-              更新
-            </button>
-            <button
-              class="delete"
+              <span id="texts">に変更する</span>
+            </v-btn>
+            <v-btn
+              text
+              v-if="nowName == index ? false : true"
               @click="deleteList(data.name, data.id, index)"
             >
-              削除
-            </button>
+              <span id="texts">を削除する</span>
+            </v-btn>
           </div>
         </div>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
 <script>
+import Footer from "../components/CommonFooter";
 export default {
+  components: {
+    Footer,
+  },
   data: () => ({
     list: [{ name: "開発" }, { name: "仕事" }, { name: "子育て" }],
     url: "https://radiant-reaches-47731.herokuapp.com/api/todolists",
-    inputText: null,
-    is_validation: false,
+    inputText: "",
+    nowName: -1,
   }),
   async created() {
     this.$store.dispatch("Init", { url: this.url });
   },
+
   methods: {
     checkValidation(targetText) {
       if (!targetText) {
@@ -68,6 +93,7 @@ export default {
           ID: Id,
           Index: Index,
         });
+        this.nowName = -1;
       }
     },
     deleteList(deleteList, Id, Index) {
@@ -79,19 +105,22 @@ export default {
         });
       }
     },
+    input(index) {
+      this.nowName = index;
+    },
   },
 };
 </script>
 
 <style scoped>
 .container {
-  background-color: #2d197c;
+  background-color: snow;
   height: 100vh;
   width: 100vw;
   position: relative;
 }
 .main {
-  background-color: #fff;
+  background-color: snow;
   width: 50vw;
   padding: 30px;
   position: absolute;
@@ -105,76 +134,25 @@ export default {
   font-size: 24px;
   margin-bottom: 15px;
 }
+.buttons {
+  margin-top: 30px;
+}
+#texts {
+  font-weight: initial;
+  font-size: 24px;
+}
 .todolist {
   margin-bottom: 15px;
 }
 .inputtext {
   width: 80%;
   padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
   font-size: 14px;
   outline: none;
-}
-.add {
-  text-align: left;
-  border: 2px solid #dc70fa;
-  font-size: 12px;
-  color: #dc70fa;
-  background-color: #fff;
-  font-weight: bold;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.4s;
-  outline: none;
-}
-.inpuupdate {
-  width: 30%;
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  font-size: 14px;
-  outline: none;
-}
-.update {
-  text-align: left;
-  border: 2px solid #fa9770;
-  font-size: 12px;
-  color: #fa9770;
-  background-color: #fff;
-  font-weight: bold;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.4s;
-  outline: none;
-  margin-left: 10px;
-}
-.delete {
-  text-align: left;
-  border: 2px solid #71fadc;
-  font-size: 12px;
-  color: #71fadc;
-  background-color: #fff;
-  font-weight: bold;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.4s;
-  outline: none;
-  margin-left: 10px;
 }
 
 .flex {
   display: flex;
-  margin-bottom: 15px;
   justify-content: space-between;
 }
 </style>

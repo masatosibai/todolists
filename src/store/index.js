@@ -47,9 +47,9 @@ export default new Vuex.Store({
       await axios.put(url+"/"+ ID,
       {name:name}).then((response) => {
           // console.log(response);
-          // console.log(response.data);
+          console.log(response.data);
         console.debug(response)
-        console.log(name + " " + ID);
+        // console.log(name + " " + ID);
         commit({ type:"updateName", name:name, id:ID, index:Index })
       })
     },
