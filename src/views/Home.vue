@@ -5,12 +5,12 @@
       <div class="todolist">
         <div class="flex">
           <v-text-field
-            class="inputtext"
             label="やることを記入"
             counter="200"
             v-model="inputText"
           />
           <v-btn
+            class="buttons"
             text
             x-large
             v-if="this.inputText != ''"
@@ -144,13 +144,6 @@ export default {
 .todolist {
   margin-bottom: 15px;
 }
-.inputtext {
-  width: 80%;
-  padding: 5px;
-  font-size: 14px;
-  outline: none;
-}
-
 .flex {
   display: flex;
   justify-content: space-between;
