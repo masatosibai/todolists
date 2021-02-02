@@ -27,17 +27,19 @@
           <v-text-field
             type="text"
             class="inputupdate"
-            v-model="data.name"
-            @change="input(index)"
+            :value="data.name"
+            @input="nowinput(index)"
           />
           <div class="buttons ">
-            <v-btn
-              text
-              v-if="nowName == index"
-              @click="updateList(data.name, data.id, index)"
-            >
-              <span id="texts">に変更する</span>
-            </v-btn>
+            <transition name="fade">
+              <v-btn
+                text
+                v-if="nowName == index"
+                @click="updateList(data.name, data.id, index)"
+              >
+                <span id="texts">に変更する</span>
+              </v-btn>
+            </transition>
             <v-btn
               text
               v-if="nowName == index ? false : true"
@@ -105,7 +107,7 @@ export default {
         });
       }
     },
-    input(index) {
+    nowinput(index) {
       this.nowName = index;
     },
   },
@@ -147,5 +149,12 @@ export default {
 .flex {
   display: flex;
   justify-content: space-between;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
