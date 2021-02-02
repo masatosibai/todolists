@@ -35,7 +35,7 @@
               <v-btn
                 text
                 v-if="nowName == index"
-                @click="updateList(data.name, data.id, index)"
+                @click="updateList(updateText, data.id, index)"
               >
                 <span id="texts">に変更する</span>
               </v-btn>
@@ -43,7 +43,7 @@
             <v-btn
               text
               v-if="nowName == index ? false : true"
-              @click="deleteList(data.name, data.id, index)"
+              @click="deleteList(updateText, data.id, index)"
             >
               <span id="texts">を削除する</span>
             </v-btn>
@@ -65,6 +65,7 @@ export default {
     list: [{ name: "開発" }, { name: "仕事" }, { name: "子育て" }],
     url: "https://radiant-reaches-47731.herokuapp.com/api/todolists",
     inputText: "",
+    updateText: "",
     nowName: -1,
   }),
   async created() {
@@ -109,6 +110,7 @@ export default {
     },
     nowinput(index) {
       this.nowName = index;
+      this.updateText = event.target.value;
     },
   },
 };
@@ -150,11 +152,13 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
+.fade-enter-active {
+  transition: opacity 1s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.fade-enter {
+  opacity: 0;
+}
+.fade-leave {
   opacity: 0;
 }
 </style>
