@@ -155,10 +155,16 @@ export default {
 .fade-enter-active {
   transition: opacity 1s;
 }
+.fade-leave-active {
+  transition: opacity 0s;
+}
 .fade-enter {
   opacity: 0;
 }
-.fade-leave {
+.fade-leave{
+  opacity: 0;
+}
+.fade-leave-to {
   opacity: 0;
 }
 </style>
